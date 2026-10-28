@@ -95,13 +95,13 @@ def main() -> int:
     try:
         prev_sent, prev_recv = read_totals(args.url, args.timeout)
     except (urllib.error.URLError, TimeoutError, ValueError, OSError) as exc:
-        print(f"连不上路由器 UPnP：{exc}", file=sys.stderr)
-        print(f"控制地址：{args.url}", file=sys.stderr)
+        print(f"Cannot reach router UPnP: {exc}", file=sys.stderr)
+        print(f"Control URL: {args.url}", file=sys.stderr)
         return 1
 
     prev_t = time.monotonic()
-    print("来源：UPnP IGD 累计字节（不登录网页）")
-    print("Ctrl+C 退出\n")
+    print("Source: UPnP IGD byte counters (no web login)")
+    print("Ctrl+C to quit\n")
 
     try:
         while True:
@@ -109,7 +109,7 @@ def main() -> int:
             try:
                 sent, recv = read_totals(args.url, args.timeout)
             except (urllib.error.URLError, TimeoutError, ValueError, OSError) as exc:
-                print(f"\r读取失败：{exc}          ", flush=True)
+                print(f"\rRead failed: {exc}          ", flush=True)
                 continue
             now = time.monotonic()
             dt = now - prev_t
@@ -121,13 +121,13 @@ def main() -> int:
 
             # ANSI clear-home so the block stays in place
             sys.stdout.write("\x1b[H\x1b[J")
-            print("路由器 WAN")
-            print(f"  上传  {fmt_rate(up):>12}    累计  {fmt_bytes(sent)}")
-            print(f"  下载  {fmt_rate(down):>12}    累计  {fmt_bytes(recv)}")
-            print(f"\n间隔 {dt:.2f}s   {args.url}")
+            print("Router WAN")
+            print(f"  Up    {fmt_rate(up):>12}    Total  {fmt_bytes(sent)}")
+            print(f"  Down  {fmt_rate(down):>12}    Total  {fmt_bytes(recv)}")
+            print(f"\nInterval {dt:.2f}s   {args.url}")
             sys.stdout.flush()
     except KeyboardInterrupt:
-        print("\n已退出")
+        print("\nQuit")
         return 0
 
 

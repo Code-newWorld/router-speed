@@ -183,14 +183,14 @@ int main() {
         prev_sent = first.first;
         prev_recv = first.second;
     } catch (const std::exception& e) {
-        std::cerr << "连不上路由器 UPnP：" << e.what() << "\n"
-                  << "控制地址：http://" << kHost << ":" << kPort << kPath << "\n";
+        std::cerr << "Cannot reach router UPnP: " << e.what() << "\n"
+                  << "Control URL: http://" << kHost << ":" << kPort << kPath << "\n";
         return 1;
     }
 
     auto prev_t = std::chrono::steady_clock::now();
-    std::cout << "来源：UPnP IGD 累计字节（不登录网页）\n"
-              << "Ctrl+C 退出\n\n"
+    std::cout << "Source: UPnP IGD byte counters (no web login)\n"
+              << "Ctrl+C to quit\n\n"
               << std::flush;
 
     while (!g_stop) {
@@ -214,18 +214,18 @@ int main() {
             prev_t = now;
 
             std::cout << "\x1b[H\x1b[J"
-                      << "路由器 WAN\n"
-                      << "  上传  " << fmt_rate(up) << "    累计  "
+                      << "Router WAN\n"
+                      << "  Up    " << fmt_rate(up) << "    Total  "
                       << fmt_total(now_tot.first) << "\n"
-                      << "  下载  " << fmt_rate(down) << "    累计  "
+                      << "  Down  " << fmt_rate(down) << "    Total  "
                       << fmt_total(now_tot.second) << "\n\n"
-                      << "间隔 " << dt << "s   http://" << kHost << ":" << kPort
+                      << "Interval " << dt << "s   http://" << kHost << ":" << kPort
                       << kPath << "\n"
                       << std::flush;
         } catch (const std::exception& e) {
-            std::cout << "\r读取失败：" << e.what() << "          " << std::flush;
+            std::cout << "\rRead failed: " << e.what() << "          " << std::flush;
         }
     }
-    std::cout << "\n已退出\n";
+    std::cout << "\nQuit\n";
     return 0;
 }

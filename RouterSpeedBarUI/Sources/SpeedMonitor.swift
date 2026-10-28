@@ -8,7 +8,7 @@ final class SpeedMonitor: ObservableObject {
     @Published var downRate = "—"
     @Published var upTotal = "—"
     @Published var downTotal = "—"
-    @Published var status = "来源：UPnP IGD  192.168.0.1"
+    @Published var status = "Source: UPnP IGD  192.168.0.1"
 
     private var prev: UPnPClient.Totals?
     private var prevAt = Date()
@@ -32,7 +32,7 @@ final class SpeedMonitor: ObservableObject {
             } catch {
                 upCompact = "—"
                 downCompact = "—"
-                status = "读取失败：\(error.localizedDescription)"
+                status = "Read failed: \(error.localizedDescription)"
             }
             try? await Task.sleep(nanoseconds: 1_000_000_000)
         }
@@ -48,7 +48,7 @@ final class SpeedMonitor: ObservableObject {
             downCompact = "…"
             upTotal = ByteFormat.total(totals.sent)
             downTotal = ByteFormat.total(totals.received)
-            status = "来源：UPnP IGD  正在采样…"
+            status = "Source: UPnP IGD  sampling…"
             return
         }
 
@@ -63,6 +63,6 @@ final class SpeedMonitor: ObservableObject {
         downRate = ByteFormat.rate(down)
         upTotal = ByteFormat.total(totals.sent)
         downTotal = ByteFormat.total(totals.received)
-        status = "来源：UPnP IGD  \(String(format: "%.2fs", dt))"
+        status = "Source: UPnP IGD  \(String(format: "%.2fs", dt))"
     }
 }

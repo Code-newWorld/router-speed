@@ -36,9 +36,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         statusItem.button?.image = BarImage.make(up: "  …", down: "  …")
 
         let menu = NSMenu()
-        upItem = NSMenuItem(title: "上传  —", action: nil, keyEquivalent: "")
-        downItem = NSMenuItem(title: "下载  —", action: nil, keyEquivalent: "")
-        statusLine = NSMenuItem(title: "来源：UPnP IGD  192.168.0.1", action: nil, keyEquivalent: "")
+        upItem = NSMenuItem(title: "Up    —", action: nil, keyEquivalent: "")
+        downItem = NSMenuItem(title: "Down  —", action: nil, keyEquivalent: "")
+        statusLine = NSMenuItem(title: "Source: UPnP IGD  192.168.0.1", action: nil, keyEquivalent: "")
         upItem.isEnabled = false
         downItem.isEnabled = false
         statusLine.isEnabled = false
@@ -47,7 +47,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         menu.addItem(.separator())
         menu.addItem(statusLine)
         menu.addItem(.separator())
-        menu.addItem(NSMenuItem(title: "退出", action: #selector(quit), keyEquivalent: "q"))
+        menu.addItem(NSMenuItem(title: "Quit", action: #selector(quit), keyEquivalent: "q"))
         statusItem.menu = menu
 
         pollTask = Task { [weak self] in
@@ -78,7 +78,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             } catch {
                 await MainActor.run {
                     self.setBar(up: "  —", down: "  —")
-                    self.statusLine.title = "读取失败：\(error.localizedDescription)"
+                    self.statusLine.title = "Read failed: \(error.localizedDescription)"
                 }
             }
             try? await Task.sleep(nanoseconds: 1_000_000_000)
@@ -92,9 +92,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         }
         guard let prev else {
             setBar(up: "  …", down: "  …")
-            upItem.title = "上传  累计  \(ByteFormat.total(totals.sent))"
-            downItem.title = "下载  累计  \(ByteFormat.total(totals.received))"
-            statusLine.title = "来源：UPnP IGD  正在采样…"
+            upItem.title = "Up    Total  \(ByteFormat.total(totals.sent))"
+            downItem.title = "Down  Total  \(ByteFormat.total(totals.received))"
+            statusLine.title = "Source: UPnP IGD  sampling…"
             return
         }
 
@@ -104,9 +104,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         let down = Double(ByteFormat.delta(prev: prev.received, cur: totals.received)) / dt
 
         setBar(up: ByteFormat.compactRate(up), down: ByteFormat.compactRate(down))
-        upItem.title = "上传  \(ByteFormat.rate(up))    累计  \(ByteFormat.total(totals.sent))"
-        downItem.title = "下载  \(ByteFormat.rate(down))    累计  \(ByteFormat.total(totals.received))"
-        statusLine.title = "来源：UPnP IGD  \(String(format: "%.2fs", dt))"
+        upItem.title = "Up    \(ByteFormat.rate(up))    Total  \(ByteFormat.total(totals.sent))"
+        downItem.title = "Down  \(ByteFormat.rate(down))    Total  \(ByteFormat.total(totals.received))"
+        statusLine.title = "Source: UPnP IGD  \(String(format: "%.2fs", dt))"
     }
 }
 

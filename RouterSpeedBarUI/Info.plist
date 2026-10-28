@@ -19,7 +19,7 @@
 	<key>LSUIElement</key>
 	<true/>
 	<key>NSLocalNetworkUsageDescription</key>
-	<string>读取家里路由器的 UPnP 流量统计，用于菜单栏显示网速。</string>
+	<string>Reads UPnP traffic stats from the home router for the menu bar speed display.</string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsLocalNetworking</key>

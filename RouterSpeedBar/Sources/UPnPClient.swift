@@ -124,12 +124,12 @@ enum UPnPError: LocalizedError {
 
     var errorDescription: String? {
         switch self {
-        case .missingTag(let tag): return "XML 缺少 \(tag)"
-        case .badStatus: return "HTTP 不是 200"
-        case .socket: return "无法创建套接字"
-        case .connect: return "连不上 \(UPnPClient.host):\(UPnPClient.port)"
-        case .send: return "发送失败"
-        case .recv: return "接收失败"
+        case .missingTag(let tag): return "XML missing \(tag)"
+        case .badStatus: return "HTTP status is not 200"
+        case .socket: return "Could not create socket"
+        case .connect: return "Cannot connect to \(UPnPClient.host):\(UPnPClient.port)"
+        case .send: return "Send failed"
+        case .recv: return "Receive failed"
         }
     }
 }
